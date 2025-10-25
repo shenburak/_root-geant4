@@ -102,26 +102,24 @@ void RunRDataFrame(const Options &opts) {
     auto histEnergy = df.Histo1D({"h_energy", "Energy;E [MeV];Counts", 40, 0., 8.}, "energy");
 
     // Dedektör bazında yüksek enerjili olayların oranını hesaplıyoruz.
-    auto efficiencyByDetector = df.Define("isHigh", "energy>4.5")
-        .GroupBy("detector_id")
-        .Define("highFraction", [](const ROOT::RVec<int> &detIds, const ROOT::RVec<char> &mask) {
-            std::unordered_map<int, std::pair<int, int>> counts;
-            for (std::size_t i = 0; i < detIds.size(); ++i) {
-                auto &entry = counts[detIds[i]];
-                ++entry.first;
-                if (mask[i]) {
-                    ++entry.second;
-                }
+    {
+        // Klasik bir birikim kullanarak her detektör için toplam ve yüksek enerjili olay sayısını hesaplıyoruz.
+        std::unordered_map<int, std::pair<int, int>> counts;
+        df.Foreach([&counts](int det, float en) {
+            auto &entry = counts[det];
+            ++entry.first;
+            if (en > 4.5f) {
+                ++entry.second;
             }
-            return counts;
-        }, {"detector_id", "isHigh"});
+        }, {"detector_id", "energy"});
 
-    efficiencyByDetector.Foreach([](const std::unordered_map<int, std::pair<int, int>> &counts) {
-        for (const auto &[det, stat] : counts) {
+        for (const auto &p : counts) {
+            int det = p.first;
+            const auto &stat = p.second;
             double fraction = (stat.first == 0) ? 0.0 : static_cast<double>(stat.second) / static_cast<double>(stat.first);
             std::cout << "Detector " << det << ": high-energy fraction = " << fraction << "\n";
         }
-    });
+    }
 
     std::cout << "Entries: " << *nEntries << "\n";
     std::cout << "Mean energy: " << *meanEnergy << " MeV\n";
