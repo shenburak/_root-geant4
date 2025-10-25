@@ -7,5 +7,15 @@
     "chrono": "cpp",
     "viewHits.C": "cpp"
   },
-  "cmake.sourceDirectory": "/Users/shenburak/Documents/projects/root-geant4/geant4/01_minimal_detector"
+  "cmake.sourceDirectory": "/Users/shenburak/Documents/projects/root-geant4/geant4/01_minimal_detector",
+  "C_Cpp.default.includePath": [
+    "${workspaceFolder}/**",
+    "${env:ROOTSYS}/include",
+    "${env:ROOTSYS}/include/root",
+    "${env:G4INCLUDE}",
+    "${env:Geant4_DIR}/../../../include"
+  ],
+  "C_Cpp.default.compilerPath": "/usr/bin/clang++",
+  "C_Cpp.default.cppStandard": "c++17",
+  "C_Cpp.default.intelliSenseMode": "macos-clang-x64"
 }
