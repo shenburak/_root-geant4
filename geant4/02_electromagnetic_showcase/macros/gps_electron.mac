@@ -1,0 +1,9 @@
+/gps/particle e-
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/centre 0 0 -40 cm
+/gps/pos/radius 1 cm
+/gps/ang/type beam1d
+/gps/ang/sigma_r 2 mrad
+/gps/ene/type Mono
+/gps/ene/mono 80 MeV

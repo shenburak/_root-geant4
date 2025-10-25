@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "spectrumMacro.C": "cpp",
+    "run_all.C": "cpp",
+    "cmath": "cpp",
+    "iostream": "cpp",
+    "chrono": "cpp",
+    "viewHits.C": "cpp"
+  },
+  "cmake.sourceDirectory": "/Users/shenburak/Documents/projects/root-geant4/geant4/01_minimal_detector"
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "label": "baseline",
+    "entries": 20000,
+    "mean": 5.8,
+    "sigma": 0.8,
+    "background": 0.2
+  },
+  {
+    "label": "wide",
+    "entries": 20000,
+    "mean": 5.8,
+    "sigma": 1.4,
+    "background": 0.35
+  },
+  {
+    "label": "shifted",
+    "entries": 16000,
+    "mean": 6.6,
+    "sigma": 0.7,
+    "background": 0.25
+  }
+]

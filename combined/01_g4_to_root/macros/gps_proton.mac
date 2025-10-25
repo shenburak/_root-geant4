@@ -1,0 +1,9 @@
+/gps/particle proton
+/gps/pos/type Plane
+/gps/pos/shape Circle
+/gps/pos/radius 1 mm
+/gps/pos/centre 0 0 -50 cm
+/gps/direction 0 0 1
+/gps/ene/type Gaussian
+/gps/ene/mono 120 MeV
+/gps/ene/sigma 5 MeV

@@ -1,0 +1,14 @@
+/control/verbose 1
+/run/verbose 1
+/event/verbose 0
+/tracking/verbose 0
+
+/control/execute macros/gps_electron.mac
+
+/run/initialize
+
+/vis/open OGL 800x600-0+0
+/vis/viewer/set/style surface
+/vis/drawVolume
+/vis/viewer/set/lineSegmentsPerCircle 48
+/vis/scene/add/axes 0 0 0 10 cm

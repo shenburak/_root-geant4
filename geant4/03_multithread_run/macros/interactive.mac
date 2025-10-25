@@ -1,0 +1,17 @@
+/control/verbose 1
+/run/verbose 1
+/event/verbose 0
+/tracking/verbose 0
+
+/gun/particle proton
+/gun/energy 150 MeV
+/gun/position 0 0 -150 cm
+/gun/direction 0 0 1
+
+/run/initialize
+
+/vis/open OGL 800x600-0+0
+/vis/viewer/set/style surface
+/vis/viewer/zoom 1.2
+/vis/drawVolume
+/vis/scene/add/axes 0 0 0 20 cm
