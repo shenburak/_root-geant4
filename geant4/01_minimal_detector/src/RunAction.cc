@@ -10,11 +10,13 @@
 
 RunAction::RunAction() : G4UserRunAction(), fTotalEdep(0.) {
     auto *accumulableManager = G4AccumulableManager::Instance();
+    // Çok iş parçacıklı koşularda enerji toplamını güvenle toplayabilmek için Accumulable mekanizmasını kullanıyoruz.
     accumulableManager->RegisterAccumulable(fTotalEdep);
 }
 
 void RunAction::BeginOfRunAction(const G4Run *) {
     auto *accumulableManager = G4AccumulableManager::Instance();
+    // Her run başlangıcında önceki toplamlardan kurtulmak kritik.
     accumulableManager->Reset();
 }
 
@@ -35,5 +37,6 @@ void RunAction::EndOfRunAction(const G4Run *run) {
 }
 
 void RunAction::AddEdep(G4double edep) {
+    // SteppingAction koşusu sırasında her adımda toplanan enerjiye ekleme yapıyoruz.
     fTotalEdep += edep;
 }

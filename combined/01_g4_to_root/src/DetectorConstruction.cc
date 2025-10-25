@@ -20,6 +20,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     auto *air = nist->FindOrBuildMaterial("G4_AIR");
     auto *silicon = nist->FindOrBuildMaterial("G4_Si");
 
+    // Dünya hacmi geniş tutuldu; teleskop modülleri ve parçacık saçılmaları için pay bırakıyoruz.
     auto *worldSolid = new G4Box("World", 1.5 * m, 1.5 * m, 1.5 * m);
     auto *worldLogical = new G4LogicalVolume(worldSolid, air, "WorldLogical");
     auto *worldPhysical = new G4PVPlacement(nullptr, {}, worldLogical, "WorldPhysical", nullptr, false, 0, true);
@@ -39,6 +40,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
         new G4PVPlacement(nullptr, G4ThreeVector(0., 0., z), layerLogical, "SensorPhysical" + std::to_string(layer),
                           telescopeLogical, false, layer, true);
         layerLogical->SetVisAttributes(G4VisAttributes(G4Colour(0.0, 0.6, 0.8)));
+        // Her sensör katmanını daha sonra TelescopeSD içinde indekslemek için saklıyoruz.
         fLayers.push_back(layerLogical);
         z += thickness + gap;
     }
@@ -55,6 +57,7 @@ void DetectorConstruction::ConstructSDandField() {
     sdManager->AddNewDetector(telescopeSD);
 
     for (auto *logical : fLayers) {
+        // Tüm katmanlar aynı hassas dedektörü paylaşır, hit nesneleri katman id'si içerir.
         SetSensitiveDetector(logical, telescopeSD);
     }
 }

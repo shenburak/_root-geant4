@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the ROOT histogram using matplotlib for publication-ready plots."""
+"""ROOT histogramını matplotlib ile yayın kalitesinde görselleştirir."""
 
 import argparse
 from pathlib import Path
@@ -11,6 +11,7 @@ import ROOT
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Overlay a ROOT histogram using matplotlib")
+    # ROOT dosyasını ve histogram ismini dışarıdan alarak betiği yeniden kullanılabilir kılıyoruz.
     parser.add_argument("--input", type=Path, default=Path("spectrum.root"), help="Input ROOT file")
     parser.add_argument("--hist", default="h_spectrum", help="Histogram name inside the ROOT file")
     parser.add_argument("--out", type=Path, default=Path("spectrum_matplotlib.png"), help="Output image file")
@@ -29,6 +30,7 @@ def main() -> None:
         raise RuntimeError(f"Histogram {args.hist} not found in {args.input}")
 
     nbins = hist.GetNbinsX()
+    # ROOT histogramından bin merkezlerini, değerlerini ve hatalarını NumPy dizilerine aktarıyoruz.
     bin_centres = np.array([hist.GetBinCenter(i) for i in range(1, nbins + 1)])
     bin_values = np.array([hist.GetBinContent(i) for i in range(1, nbins + 1)])
     bin_errors = np.array([hist.GetBinError(i) for i in range(1, nbins + 1)])
@@ -39,6 +41,7 @@ def main() -> None:
 
     fit = root_file.Get("fit_model")
     if fit:
+        # Uyum eğrisini matplotlib tarafında pürüzsüz çizmek için yoğun bir x ızgarası örnekliyoruz.
         x_vals = np.linspace(hist.GetXaxis().GetXmin(), hist.GetXaxis().GetXmax(), 400)
         y_vals = np.array([fit.Eval(x) for x in x_vals])
         ax.plot(x_vals, y_vals, color="tab:red", linewidth=2.0, label="Fit model")

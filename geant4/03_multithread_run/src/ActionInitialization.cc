@@ -11,6 +11,7 @@ ActionInitialization::ActionInitialization(const DetectorConstruction *detector)
 void ActionInitialization::BuildForMaster() const {
     std::size_t nLayers = 0;
     if (fDetector) {
+        // Master iş parçacığı analiz sonuçlarını toplamaktan sorumlu; katman sayısını önceden bilmesi gerek.
         nLayers = fDetector->GetLayerVolumes().size();
     }
     SetUserAction(new RunAction(nLayers, true));
@@ -30,5 +31,6 @@ void ActionInitialization::Build() const {
     auto eventAction = new EventAction(runAction, nLayers);
     SetUserAction(eventAction);
 
+    // SteppingAction hem geometri hem de olay arayüzünü kullanarak enerji depozisyonlarını paylaştırır.
     SetUserAction(new SteppingAction(fDetector, eventAction));
 }

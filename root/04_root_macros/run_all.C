@@ -89,6 +89,7 @@ std::vector<RunConfig> LoadConfigs(const std::string &path) {
 }
 
 void run_all(const char *configPath = "config.json") {
+    // Makroyu derleme kipinde yükleyerek büyük hacimli çalıştırmalarda performans kazanıyoruz.
     gROOT->ProcessLine(".L spectrumMacro.C+");
 
     auto configs = LoadConfigs(configPath);
@@ -97,6 +98,7 @@ void run_all(const char *configPath = "config.json") {
         return;
     }
 
+    // Tüm çıktıların tek bir dizine düşmesi dosya yönetimini kolaylaştırıyor.
     gSystem->mkdir("output", true);
 
     std::cout << "Running " << configs.size() << " configurations\n";
@@ -106,6 +108,7 @@ void run_all(const char *configPath = "config.json") {
         auto canvas = std::unique_ptr<TCanvas>(
             spectrumMacro(cfg.entries, cfg.mean, cfg.sigma, cfg.background, cfg.label.c_str(), "output"));
         if (canvas) {
+            // Tuvali dosyaya yazmak daha sonra uyum sonuçlarını topluca incelemeye izin verir.
             canvas->Write();
         }
     }

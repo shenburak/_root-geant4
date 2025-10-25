@@ -1,25 +1,28 @@
-# 04 – ROOT Macros & Batch Automation
+# 04 – ROOT Makroları ve Toplu (Batch) Otomasyon
 
-This module shows how to organise ROOT macros for batch execution, including parameter steering with JSON and lightweight shell wrappers.
+Bu modülde ROOT makrolarını nasıl yapılandıracağını, parametreleri JSON ile nasıl yöneteceğini ve betikleri batch modda çalıştırarak tekrar eden işleri nasıl otomatikleştireceğini öğrenirsin. Gerçek hayatta sıkça karşılaşılan “aynı grafiği farklı parametrelerle defalarca üret” senaryosunu kolaylaştırıyoruz.
 
-## Files
+## Dosya Tanımları
 
-- `spectrumMacro.C` – parameterised macro generating histograms and returning a `TCanvas*`.
-- `config.json` – list of configurations used by the driver script.
-- `run_all.C` – Cling-friendly macro that loads `spectrumMacro.C`, iterates over the JSON, and saves outputs.
-- `batch.sh` – example shell script invoking ROOT in batch mode.
+- `spectrumMacro.C`: Parametre alarak histogram oluşturan ve bir `TCanvas*` döndüren makro. Türkçe yorumlar hangi adımda ne olduğunu anlatır.
+- `config.json`: Farklı senaryoların parametre listesi. İster fizik çalışması ister ürün raporu olsun, tek dosyada senaryolarını sakla.
+- `run_all.C`: Cling uyumlu sürücü makro. JSON’u okur, her senaryoyu çalıştırır ve çıktıları kaydeder.
+- `batch.sh`: ROOT’u arayüz açmadan çalıştıran örnek kabuk betiği. CI/CD veya sunucuda iş planlamak için ideal.
 
-## Usage
+## Kullanım
 
 ```sh
 root -l -q 'run_all.C("config.json")'
 ./batch.sh
 ```
 
-Each run produces canvases inside `output/` with descriptive filenames and a summary ROOT file for later inspection.
+Her çalışma sonunda `output/` klasöründe isimlendirilmiş kanvaslar, `.root` dosyaları ve rapor niteliğinde görseller oluşturulur. Parametre seti arttıkça otomasyonun değeri katlanır.
 
-## Notes
+## Rehberlik Notları
 
-- The code uses ROOT's built-in `TJSON` helper to parse the configuration.
-- `spectrumMacro.C` is written to be compiled (`.x spectrumMacro.C++`) or interpreted.
-- Extend `config.json` with additional parameter sets to explore a wide range of spectra.
+- Konfigürasyon JSON’u ROOT’un `TJSON` araçlarıyla okunuyor. Alan adlarını değiştirirken makrodaki karşılıklarını güncelle.
+- `spectrumMacro.C` hem yorumlanabilir (`.x spectrumMacro.C`) hem derlenebilir (`.x spectrumMacro.C++`) yazıldı; performans ihtiyacına göre seç.
+- `config.json` dosyasına kendi senaryolarını ekleyip çıktıları karşılaştır; örneğin iş tarafında farklı müşteri kullanım profilleri raporlanabilir.
+- Batch modda çalışırken `--enable-implicitMT` gibi ek parametreler vererek çok çekirdekli çalışmayı test edebilirsin.
+
+Bu modülü tamamladıktan sonra, ROOT tabanlı otomasyon hattı kurmaya hazır olacaksın. Düzenli rapor üretimi, veri kalibrasyonu ve simülasyon taramalarında bu yaklaşım sana zaman kazandırır.

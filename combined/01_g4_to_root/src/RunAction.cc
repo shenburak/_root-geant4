@@ -6,12 +6,14 @@
 #include <filesystem>
 
 RunAction::RunAction(std::size_t nLayers) : fNLayers(nLayers) {
+    // ROOT çıktılarını düzenli tutmak için output dizinini önceden oluşturuyoruz.
     std::filesystem::create_directories("output");
 
     auto *analysis = G4AnalysisManager::Instance();
     analysis->SetFileName("output/telescope_hits");
     analysis->SetVerboseLevel(0);
 
+    // Geant4 analiz yöneticisi üzerinden ntuple şemasını tanımlıyoruz.
     analysis->CreateNtuple("hits", "Telescope hits");
     analysis->CreateNtupleIColumn("event_id");
     analysis->CreateNtupleIColumn("layer_id");
@@ -24,6 +26,7 @@ RunAction::RunAction(std::size_t nLayers) : fNLayers(nLayers) {
 }
 
 RunAction::~RunAction() {
+    // Bu örnekte tek iş parçacığı olduğundan analizi burada serbest bırakmak güvenli.
     delete G4AnalysisManager::Instance();
 }
 

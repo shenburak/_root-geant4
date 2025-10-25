@@ -8,6 +8,7 @@
 SteppingAction::SteppingAction(const DetectorConstruction *detector, EventAction *eventAction)
     : G4UserSteppingAction(), fDetector(detector), fEventAction(eventAction) {
     if (fDetector) {
+        // Skorlanan hacim (sensör) DetectorConstruction içinden alınır.
         fScoringVolume = fDetector->GetScoringVolume();
     }
 }
@@ -28,6 +29,7 @@ void SteppingAction::UserSteppingAction(const G4Step *step) {
     }
 
     if (fEventAction) {
+        // Yalnızca dedektör hacmindeki enerji depozisyonlarını olay toplamına ekliyoruz.
         fEventAction->AddEdep(edep);
     }
 }

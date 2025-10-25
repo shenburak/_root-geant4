@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Execute the macro pipeline in headless mode. Adjust ROOTSYS before calling if needed.
+# Makro hattını ekran çıkışı olmadan çalıştırır. ROOT ortamınız farklıysa ROOT_CMD değişkenini ayarlayın.
 
 set -eu
 

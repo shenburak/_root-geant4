@@ -10,6 +10,7 @@ ActionInitialization::ActionInitialization(const DetectorConstruction *detector)
 void ActionInitialization::Build() const {
     std::size_t nLayers = 0;
     if (fDetector) {
+        // EventAction ve RunAction'ın çıkış boyutunu belirlemek için sensör katman sayısını öğreniyoruz.
         nLayers = fDetector->GetLayerVolumes().size();
     }
 

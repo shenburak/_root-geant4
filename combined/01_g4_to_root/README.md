@@ -1,8 +1,8 @@
-# 01 – Piping Geant4 Hits into ROOT
+# 01 – Geant4 Vuruşlarını ROOT’a Aktarma
 
-Simulates a silicon telescope with Geant4, stores hit information in a ROOT ntuple, and analyses the output with ROOT/PyROOT helpers.
+Bu projede Geant4 ile silisyum teleskop simülasyonu yapıyor, oluşan vuruş (hit) bilgilerini bir ROOT ntuple’ına kaydediyor ve hem C++ hem PyROOT araçlarıyla analiz ediyoruz. Böylece tam bir simülasyon → analiz döngüsünü elinde tutmuş oluyorsun.
 
-## Build
+## Derleme
 
 ```sh
 cmake -S . -B build \
@@ -11,29 +11,34 @@ cmake -S . -B build \
 cmake --build build
 ```
 
-## Run Simulation
+## Simülasyonu Çalıştır
 
 ```sh
 ./build/telescope macros/proton.mac
 ```
 
-This writes `output/telescope_hits.root` containing an ntuple with one entry per hit (event id, layer id, energy deposition, position, time).
+Bu komut `output/telescope_hits.root` dosyasını üretir. Her vuruş için olay kimliği, katman, enerji kaybı, konum ve zaman bilgisi saklanır.
 
-## Analyse with ROOT
+## ROOT ile Analiz Et
 
 ```sh
 root -l -q 'analysis/viewHits.C("output/telescope_hits.root")'
 python3 analysis/plot_hits.py --input output/telescope_hits.root
 ```
 
-## Files
+- `viewHits.C`: Hızlı enerji histogramı ve katman-z konum renk haritası oluşturur.
+- `plot_hits.py`: PyROOT ile enerji dağılımı ve x-y etki haritasını çizer.
 
-- `src/` – Geant4 application with custom hit class and ROOT analysis manager wiring.
-- `macros/` – command macros for beam configuration and visualisation.
-- `analysis/` – ROOT macro + PyROOT script to inspect the generated dataset.
+## Dosya Yapısı
 
-## Extensions
+- `src/`: Geant4 uygulaması, özel hit sınıfı (`TelescopeHit`) ve `G4AnalysisManager` entegrasyonu.
+- `macros/`: Demet (beam) parametreleri ve görselleştirme makroları.
+- `analysis/`: Üretilen veri setini inceleyen ROOT makrosu ve PyROOT betiği.
 
-- Add more layers or materials to the telescope to test different configurations.
-- Record whole tracks by adding a `SteppingAction` that writes to the ntuple.
-- Use the PyROOT script to compute signal-to-noise ratios or apply selection/filter steps.
+## Genişletme Fikirleri
+
+- Teleskopa yeni katmanlar veya farklı malzemeler ekleyerek enerji kaybı profilini karşılaştır.
+- `SteppingAction` tanımlayıp tüm parçacık izlerini ntuple’a yaz; radyasyon hasarı analizi yapabilirsin.
+- PyROOT betiğine sinyal-gürültü oranı, verimlilik gibi metrikler ekleyip rapor hazırla.
+
+Bu proje, Geant4 ve ROOT arasında veri alışverişinin temel mimarisini kavramanı sağlar. Kod içindeki Türkçe açıklamalar her sınıfın görevini adım adım açıklar.

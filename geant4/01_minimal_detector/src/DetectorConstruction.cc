@@ -26,10 +26,12 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     auto *air = nist->FindOrBuildMaterial("G4_AIR");
     auto *silicon = nist->FindOrBuildMaterial("G4_Si");
 
+    // Dünya hacmi kurulur; Geant4'te tüm geometri bu zarfın içine çizilir.
     auto *worldSolid = new G4Box("WorldSolid", 1.0 * m, 1.0 * m, 1.0 * m);
     auto *worldLogical = new G4LogicalVolume(worldSolid, air, "WorldLogical");
     auto *worldPhysical = new G4PVPlacement(nullptr, {}, worldLogical, "WorldPhysical", nullptr, false, 0, true);
 
+    // Top dedektör hacmi basit bir silikon küp; enerji birimi olarak cm kullanıyoruz.
     auto *detectorSolid = new G4Box("DetectorSolid", 5.0 * cm, 5.0 * cm, 5.0 * cm);
     auto *detectorLogical = new G4LogicalVolume(detectorSolid, silicon, "DetectorLogical");
     new G4PVPlacement(nullptr, {}, detectorLogical, "DetectorPhysical", worldLogical, false, 0, true);
@@ -44,6 +46,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
 void DetectorConstruction::ConstructSDandField() {
     if (!fScoringVolume) {
+        // Çok iş parçacıklı çalıştırmalarda geometri yeniden yüklenebileceği için tembelce buluyoruz.
         fScoringVolume = FindLogicalVolume("DetectorLogical");
     }
 
@@ -57,6 +60,7 @@ void DetectorConstruction::ConstructSDandField() {
     auto *mfd = new G4MultiFunctionalDetector("Calorimeter");
     sdManager->AddNewDetector(mfd);
     auto *edep = new G4PSEnergyDeposit("Edep");
+    // Enerji depozisyonu ilkel dedektör olarak kaydedilir ve sonuç ntuple'ına yazılır.
     mfd->RegisterPrimitive(edep);
     SetSensitiveDetector(fScoringVolume, mfd);
 }

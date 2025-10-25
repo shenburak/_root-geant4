@@ -9,6 +9,7 @@
 
 namespace {
 void EnsureOutputDir() {
+    // Çok iş parçacıklı koşulda her worker aynı dizini kullanacağından dizinin varlığından emin oluyoruz.
     std::filesystem::create_directories("output");
 }
 }
@@ -24,6 +25,7 @@ RunAction::RunAction(std::size_t nLayers, bool isMaster) : fNLayers(nLayers), fI
     for (std::size_t i = 0; i < fNLayers; ++i) {
         auto name = "edep_layer" + std::to_string(i);
         auto title = "Energy deposit layer " + std::to_string(i) + ";Edep [MeV];Counts";
+        // Her katman için ayrı histogram oluşturarak derinlik profilini incelemeyi kolaylaştırıyoruz.
         auto id = analysis->CreateH1(name, title, 100, 0., 50.);
         fHistogramIds.push_back(id);
     }
@@ -31,12 +33,14 @@ RunAction::RunAction(std::size_t nLayers, bool isMaster) : fNLayers(nLayers), fI
 
 RunAction::~RunAction() {
     if (fIsMaster) {
+        // Analiz yöneticisini yalnızca master iş parçacığı serbest bırakmalı.
         delete G4AnalysisManager::Instance();
     }
 }
 
 void RunAction::BeginOfRunAction(const G4Run *) {
     auto *analysis = G4AnalysisManager::Instance();
+    // Worker iş parçacıkları kendi geçici dosyalarına yazar ve birleşim sonunda master bunları toplar.
     analysis->OpenFile();
 }
 
@@ -51,5 +55,6 @@ void RunAction::FillLayer(std::size_t layer, G4double edep) {
         return;
     }
     auto *analysis = G4AnalysisManager::Instance();
+    // Enerjiyi MeV cinsinden normalleştirip ilgili histogram kovasına ekliyoruz.
     analysis->FillH1(fHistogramIds[layer], edep / MeV);
 }

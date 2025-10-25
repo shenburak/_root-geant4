@@ -24,6 +24,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     auto *silicon = nist->FindOrBuildMaterial("G4_Si");
     auto *lead = nist->FindOrBuildMaterial("G4_Pb");
 
+    // Dünya hacmi geniş tutuldu; elektromanyetik duşlar sığacak şekilde beden ayarlandı.
     auto *worldSolid = new G4Box("WorldSolid", 2. * m, 2. * m, 2. * m);
     auto *worldLogical = new G4LogicalVolume(worldSolid, air, "WorldLogical");
     auto *worldPhysical = new G4PVPlacement(nullptr, {}, worldLogical, "WorldPhysical", nullptr, false, 0, true);
@@ -33,6 +34,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     auto *stackLogical = new G4LogicalVolume(stackSolid, air, "StackLogical");
     new G4PVPlacement(nullptr, {}, stackLogical, "StackPhysical", worldLogical, false, 0, true);
 
+    // Lambda, izleme hacimlerindeki geometriyi tek noktadan define etmek için kullandığımız yardımcı fonksiyon.
     auto placeLayer = [&](const G4String &name, G4Material *material, G4double zOffset, const G4Colour &colour) {
         auto *solid = new G4Box(name + "Solid", 15. * cm, 15. * cm, 0.5 * layerThickness);
         auto *logical = new G4LogicalVolume(solid, material, name + "Logical");
@@ -62,6 +64,7 @@ void DetectorConstruction::ConstructSDandField() {
 
         auto *edep = new G4PSEnergyDeposit("Edep");
         auto *dose = new G4PSDoseDeposit("Dose");
+        // Aynı hacimde hem toplam enerji depozisyonunu hem de doz büyüklüğünü kaydediyoruz.
         mfd->RegisterPrimitive(edep);
         mfd->RegisterPrimitive(dose);
 

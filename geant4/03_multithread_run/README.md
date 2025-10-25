@@ -1,31 +1,33 @@
-# 03 – Multithreaded Run & In-Run Analysis
+# 03 – Çok İş Parçacıklı (MT) Çalıştırma ve Anlık Analiz
 
-Showcases Geant4's multithreaded run manager with on-the-fly histogramming via `G4AnalysisManager` (ROOT backend). The target is a simple calorimeter hit by a customizable particle beam while recording run statistics.
+Bu örnek, Geant4’ün çok iş parçacıklı koşu yöneticisini (`G4MTRunManager`) kullanarak eşzamanlı histogram doldurma ve ntuple yazma süreçlerini nasıl yöneteceğini gösterir. Hedefimiz özelleştirilebilir bir parçacık demetiyle vurulan basit bir kalorimetre ve katman bazlı enerji istatistikleri.
 
-## Build
+## Derleme
 
 ```sh
 cmake -S . -B build -DGeant4_DIR=$(geant4-config --prefix)/lib/Geant4-11.2.0 -DGEANT4_BUILD_MULTITHREADED=ON
 cmake --build build
 ```
 
-## Run
+## Çalıştırma
 
 ```sh
 OMP_NUM_THREADS=4 ./build/mtCalorimeter macros/batch.mac
 ```
 
-Outputs are written to `output/mt_run.root` and include per-layer energy histograms.
+Çıktılar `output/mt_run.root` dosyasına yazılır ve her katman için ayrı enerji histogramları içerir. `OMP_NUM_THREADS` değerini sistemindeki çekirdek sayısına göre ayarlayabilirsin.
 
-## Highlights
+## Öne Çıkanlar
 
-- `G4MTRunManager` usage with thread-local accumulation.
-- `G4AnalysisManager` (ROOT backend) for thread-safe histogram fills and ntuple writing.
-- Command macros to steer UI and adjust number of events.
-- Hooks for per-thread initialisation in `ActionInitialization::BuildForMaster` / `Build`.
+- Thread-local (iş parçacığına özel) toplama yapan `G4MTRunManager` kullanımı.
+- `G4AnalysisManager` ile thread-safe histogram ve ntuple üretimi; ROOT arka planı sayesinde çıktı formatı uyumlu.
+- Komut makroları aracılığıyla olay sayısını, ışın enerjisini ve diğer parametreleri kodu değiştirmeden kontrol etme.
+- `ActionInitialization::BuildForMaster` ve `Build` içinde ana iş parçacığı ile çalışan iş parçacıklarının farklı başlangıç görevlerini yapması.
 
-## Try Next
+## Sonraki Adımlar
 
-- Increase thread count and compare runtime scaling.
-- Extend the ntuple with additional observables (track length, particle type).
-- Replace the uniform beam with a spectrum defined in `macros/beam.mac`.
+- İş parçacığı sayısını artırıp çalışma süresindeki ölçeklenmeyi ölç; rapor hazırla.
+- Ntuple’a iz uzunluğu (track length) veya parçacık türü gibi yeni sütunlar ekleyerek veri zenginliğini artır.
+- `macros/beam.mac` dosyasını değiştirip enerji spektrumu tanımla; klinik proton terapi veya radyasyon test senaryosu simüle et.
+
+Çok çekirdekli simülasyonlar özellikle işletme maliyetlerini düşürmek ve bilimsel doğruluğu korumak için kritik öneme sahiptir. Kod içi Türkçe yorumlar neyin nerede başlatıldığını ayrıntılı açıklar.

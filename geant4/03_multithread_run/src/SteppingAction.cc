@@ -10,6 +10,7 @@ SteppingAction::SteppingAction(const DetectorConstruction *detector, EventAction
     if (detector) {
         const auto &layers = detector->GetLayerVolumes();
         for (std::size_t i = 0; i < layers.size(); ++i) {
+            // İş parçacığı başına adımda hangi ışıldayıcıda olduğumuzu hızlı bulmak için lookup tablosu kuruyoruz.
             fLayerIndex[layers[i]] = i;
         }
     }
@@ -31,5 +32,6 @@ void SteppingAction::UserSteppingAction(const G4Step *step) {
         return;
     }
 
+    // Enerji depozisyonu olay düzeyindeki tamponda toplanıyor.
     fEventAction->AddDeposit(iter->second, edep);
 }

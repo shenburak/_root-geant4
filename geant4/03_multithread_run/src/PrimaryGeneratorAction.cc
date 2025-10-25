@@ -9,6 +9,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction() {
     auto *particleTable = G4ParticleTable::GetParticleTable();
     auto *proton = particleTable->FindParticle("proton");
 
+    // Kalorimetre testlerinde tipik olduğu gibi monoenerjik proton demeti kullanıyoruz.
     fGun = std::make_unique<G4ParticleGun>(1);
     fGun->SetParticleDefinition(proton);
     fGun->SetParticleEnergy(150. * MeV);
@@ -19,5 +20,6 @@ PrimaryGeneratorAction::PrimaryGeneratorAction() {
 PrimaryGeneratorAction::~PrimaryGeneratorAction() = default;
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event *event) {
+    // Her olay için birincil demet tepe noktasını oluşturuyoruz.
     fGun->GeneratePrimaryVertex(event);
 }

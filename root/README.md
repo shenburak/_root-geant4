@@ -1,29 +1,31 @@
-# ROOT Module Overview
+# ROOT Modül Yol Haritası
 
-Welcome to the ROOT practice track. Work through the directories in numeric order; each example builds on the previous one while introducing new features.
+ROOT tarafındaki tüm örnekleri burada bulacaksın. Klasörlerin numaralı olması takip etmeni kolaylaştırır; sırasıyla ilerlediğinde her adım bir öncekinin üzerine yeni bir kavram ekler. Açıklamalar Türkçe, kodlar İngilizce isimlendirilmiş ama bol yorum içeriyor.
 
-## Contents
+## İçerik Listesi
 
-1. `01_basic_histogram` – quickstart with histograms, canvases, and `.root` output files.
-2. `02_ttree_analysis` – turn structured text into TTrees, use `RDataFrame` for analysis.
-3. `03_pyroot_fitting` – conduct fitting and visualisation in Python with PyROOT.
-4. `04_root_macros` – create parameterised macros and batch jobs.
+1. `01_basic_histogram` – Histogram çizimi, kanvas yönetimi ve `.root` dosyasına kayıt ile hızlı başlangıç.
+2. `02_ttree_analysis` – CSV gibi yapılandırılmış verilerin `TTree`’ye aktarılması ve `RDataFrame` ile analiz.
+3. `03_pyroot_fitting` – PyROOT kullanarak model uydurma (fitting), hata analizi ve görselleştirme.
+4. `04_root_macros` – Parametrelenebilir ROOT makrolarıyla toplu (batch) çalışma ve üretkenlik ipuçları.
 
-## Getting Ready
+## Başlamadan Önce Adımlar
 
-- Verify `root-config --version` prints the expected version.
-- Test Cling: `root -l -q 'std::cout<<"ROOT ready"<<std::endl;'`.
-- Test PyROOT: `python3 -c 'import ROOT; print(ROOT.__version__)'`.
+- `root-config --version` komutuyla kurduğun sürümün beklediğin sürüm olduğunu doğrula. Farklıysa PATH ayarını gözden geçir.
+- Cling hızlı testi: `root -l -q 'std::cout<<"ROOT hazır"<<std::endl;'`. Bu komut çalışmazsa derleyici ayarların eksik olabilir.
+- PyROOT testi: `python3 -c 'import ROOT; print(ROOT.__version__)'`. Bilimsel hesaplamalarda Python entegrasyonu kritik, bu adımı atlama.
 
-## Build & Run Pattern
+## Derleme ve Çalıştırma Düzeni
 
-- Each C++ project includes a `Makefile` using `root-config` for compile and link flags.
-- Run `make` to compile, then execute the produced binary (e.g. `./basic_histogram`).
-- Clean with `make clean`.
+- Her C++ örneğinde `root-config` bayraklarını kullanan bir `Makefile` var; böylece kendi derleyici parametrelerini hatırlamak zorunda değilsin.
+- Terminalde `make` dediğinde proje derlenir; ardından örneğin `./basic_histogram` komutuyla uygulamayı başlat.
+- Kaynak temizliği: `make clean` histogram dosyalarını, ikili dosyayı ve geçici çıktıları siler.
 
-## Stretch Goals
+## Kapsamlı Öğrenme İçin Ek Öneriler
 
-- Swap histogram binning or axis labels and observe the resulting output.
-- Convert the C++ histogram example into a PyROOT script.
-- Add `RDataFrame` filters or snapshots to the TTree project.
-- Experiment with `ROOT::Math::MinimizerOptions::SetDefaultTolerance()` inside the fitting example.
+- Histogram projesinde kutu (bin) sayısını, eksen etiketlerini değiştir ve çıktının iş gereksinimine (rapor, sunum vb.) uygun görünüp görünmediğini değerlendir.
+- Histogram örneğini PyROOT’a çevirerek kod tekrarını azalt, böylece hızlı prototip çıkar. Entegrasyon projelerinde Python hız sağlar.
+- TTree projesine `RDataFrame` filtreleri ekle, `Snapshot` ile farklı alt veri setleri oluştur. Bu yaklaşım gerçek veri analizi süreçlerini taklit eder.
+- Fit örneğinde `ROOT::Math::MinimizerOptions::SetDefaultTolerance()` ayarıyla optimizasyon hassasiyetinin sonuçlara etkisini incele ve raporla.
+
+Her klasördeki README sana bilimsel arka planı, iş değerini ve tekrar edilebilir adımları verir. Notlarını bu dosyalara eklemek, ileride yapılacak projelerde referans sağlar.

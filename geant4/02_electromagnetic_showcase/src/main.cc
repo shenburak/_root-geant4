@@ -21,6 +21,7 @@ G4String ResolvePhysicsList(int argc, char **argv) {
     if (auto env = std::getenv("G4_PHYSICS")) {
         return env;
     }
+    // Varsayılan olarak yüksek hassasiyetli elektromanyetik genişletmesi olan FTFP_BERT_EMZ seçiyoruz.
     return "FTFP_BERT_EMZ";
 }
 }
@@ -36,6 +37,7 @@ int main(int argc, char **argv) {
     auto physicsList = physicsFactory.GetReferencePhysList(physicsListName);
     if (!physicsList) {
         std::cerr << "Unknown physics list '" << physicsListName << "', falling back to FTFP_BERT" << std::endl;
+        // Kullanıcı hatalı isim verirse daha genel bir listeye dönüyoruz ki simülasyon yine de çalışsın.
         physicsList = physicsFactory.GetReferencePhysList("FTFP_BERT");
     }
     runManager->SetUserInitialization(physicsList);
@@ -49,10 +51,12 @@ int main(int argc, char **argv) {
 
     if (argc == 1) {
         auto uiExec = std::make_unique<G4UIExecutive>(argc, argv);
+        // Etkileşimli mod otomatik olarak görselleştirme ve örnek makroları yükler.
         uiManager->ApplyCommand("/control/execute macros/init_vis.mac");
         uiExec->SessionStart();
     } else {
         auto macro = std::string("/control/execute ") + argv[1];
+        // Toplu modda kullanıcı tarafından verilen makro betiği doğrudan çağırılır.
         uiManager->ApplyCommand(macro.c_str());
     }
 

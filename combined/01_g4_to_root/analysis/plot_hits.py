@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Plot Geant4 telescope hits stored in ROOT."""
+"""ROOT dosyasındaki Geant4 teleskop vuruşlarını grafiğe döker."""
 
 import argparse
 from pathlib import Path
@@ -9,6 +9,7 @@ import ROOT
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Plot telescope hit distributions")
+    # Dosya yolunu ve etkileşimli/başsız çalıştırma tercihlerini dışarıdan alıyoruz.
     parser.add_argument("--input", type=Path, default=Path("output/telescope_hits.root"), help="ROOT file path")
     parser.add_argument("--batch", action="store_true", help="Disable canvas display")
     return parser.parse_args()
@@ -30,6 +31,7 @@ def main() -> None:
     canvas.Divide(2, 1)
 
     canvas.cd(1)
+    # Enerji dağılımı için basit bir histogram çiziyoruz.
     tree.Draw("energy_keV>>hEnergy(120,0,400)", "", "hist")
     h_energy = ROOT.gPad.GetPrimitive("hEnergy")
     if h_energy:
@@ -39,6 +41,7 @@ def main() -> None:
         h_energy.SetYTitle("Counts")
 
     canvas.cd(2)
+    # X-Y dağılımı iki boyutlu ısı haritası biçiminde görselleştiriliyor.
     tree.Draw("y_mm:x_mm>>hXY(80,-50,50,80,-50,50)", "", "colz")
     h_xy = ROOT.gPad.GetPrimitive("hXY")
     if h_xy:
@@ -48,6 +51,7 @@ def main() -> None:
 
     if not args.batch:
         canvas.Update()
+        # Etkileşimli modda kullanıcı grafikleri inceleyebilsin diye çıkışı duraklatıyoruz.
         input("Press <Enter> to close...")
 
     file.Close()

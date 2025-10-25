@@ -1,16 +1,19 @@
-# ROOT + Geant4 Integration Track
+# ROOT + Geant4 Entegrasyon Rotası
 
-These examples show how to bridge Geant4 simulations with ROOT analysis pipelines. The standard flow is:
+Bu bölüm, Geant4 simülasyonlarından çıkan verileri ROOT analiz hattına nasıl bağlayacağını anlatır. Genel akış şu şekilde işler:
 
-1. Geant4 application writes hit/ntuple data using `G4AnalysisManager` or custom output classes.
-2. ROOT / PyROOT scripts consume those outputs for fast inspection and fitting.
+1. Geant4 uygulaması `G4AnalysisManager` (veya özel sınıflar) aracılığıyla vuruşları ve ntuple verilerini `.root` dosyalarına yazar.
+2. ROOT / PyROOT betikleri bu dosyaları okuyarak hızlı görselleştirme, eşik uygulama ve uydurma (fitting) yapar.
 
-## Projects
+## Proje
 
-1. `01_g4_to_root` – Geant4 simulation writing hit collections to ROOT, plus a companion ROOT macro for analysis.
+1. `01_g4_to_root`: Geant4 tarafında silisyum teleskop simülasyonu, ROOT tarafında ise hem C++ hem PyROOT ile analiz.
 
-## Suggested Workflow
+## Önerilen Çalışma Şekli
 
-- Build the Geant4 application first to generate `.root` files.
-- Use the provided ROOT scripts to plot distributions, apply cuts, and compute derived quantities.
-- Extend by adding more branches or aligning the schema with your real detector geometry.
+- Önce Geant4 uygulamasını derleyip çalıştırarak örnek `.root` dosyasını üret.
+- Ardından ROOT makrosu ve PyROOT betiğiyle dağılımları çiz, fiziksel yorumunu yap ve daha fazla türetilmiş büyüklük hesapla.
+- Kendi dedektör geometri şemanı işlemek istersen, dallara yeni alanlar ekleyerek şemayı genişlet.
+- İş değeri: Simülasyon çıktısı ile analizi tek döngüde birleştirerek Ar-Ge ekibine hız kazandır, deneysel doğrulamaya gitmeden önce sonuçları filtrele.
+
+Tüm açıklamalar Türkçe olduğundan gerçek bir proje hazırlığına başlamadan önce burada ellerini ısıtabilirsin.

@@ -1,31 +1,48 @@
-# 01 – Basic Histogram & Canvas
+# 01 – Histogram ve Kanvas ile Tanışma
 
-This starter showcases how to create histograms, manage canvases, and store results in `.root` files. Run it first to ensure your ROOT toolchain works end-to-end.
+Bu ilk örnek, ROOT kurulumunun eksiksiz çalıştığını doğrulaman için tasarlandı. Histogram üretmeyi, kanvası yönetmeyi ve sonuçları `.root` ile `.png` dosyalarına kaydetmeyi öğreneceksin. Kod içindeki Türkçe yorumlar seni yönlendiriyor, ayrıca aşağıdaki adımları takip etmen yeterli.
 
-## Build
+## Neden Önemli?
+
+- **Bilimsel bakış:** Enerji spektrumları gibi dağılımları incelemek deney fiziğinin temelidir.
+- **İş/tasarım bakışı:** Üretim süreçlerinde (ör. kalite kontrol) hızlı histogramlar üretmek karar vermeyi hızlandırır.
+- **Teknik hedef:** ROOT uygulamasının baştan sona (derleme → çalışma → çıktı) sorunsuz olduğunu test etmek.
+
+## Derleme
 
 ```sh
 make
 ```
 
-## Run
+Bu komut `root-config` bayraklarını kullanarak `basic_histogram` ikilisini üretir.
+
+## Çalıştırma
 
 ```sh
 ./basic_histogram
 root -l output.root
 ```
 
-Inside the ROOT shell, try `.ls` to see saved objects, and `hist->Draw()` to check the histogram.
+ROOT kabuğuna girince `.ls` yazarak dosyaya kaydedilen nesneleri listele, `energy->Draw()` ya da `hist->Draw()` ile görüntüle. `energy_canvas.png` dosyası görsel olarak çıktı verir.
 
-## Key Concepts
+## Öğrenilecek Temel Kavramlar
 
-- `TApplication` bootstrapping for headless or batch mode.
-- `TH1F` histogram creation and filling.
-- Persisting results via `TFile`.
-- Exporting canvases to image formats.
+- `TApplication` nesnesi ile uygulamayı grafikli veya batch modda başlatma.
+- `TH1F` sınıfı ile histogram oluşturup doldurma.
+- `TFile` üzerinden kalıcı `.root` kaydı alma.
+- Kanvası `.png` olarak dışa aktarma ve raporlamada kullanma.
 
-## Exercises
+## Adım Adım Rehber
 
-- Change the distribution to Gaussian noise and compare shapes.
-- Add a second histogram and overlay it with `hist->SetLineColor()`.
-- Try running the program with `./basic_histogram --batch` to skip the GUI draw step.
+1. `make` çalıştır, hata varsa `root-config` yollarını kontrol et.
+2. `./basic_histogram` komutu ile örneği başlat; konsolda yazan bilgilere dikkat et.
+3. `root -l output.root` ile çıktı dosyasını aç, `hist->Print()` diyerek histogram özelliklerini incele.
+4. Grafiği sunum veya rapor için `energy_canvas.png` dosyasından al.
+
+## Kendini Test Et
+
+- Dağılımı Gauss gürültüsü ile değiştirip şekillerin nasıl farklılaştığını gözlemle.
+- İkinci bir histogram ekleyip `SetLineColor` ile üst üste çiz; çoklu dedektör kanalını simüle etmiş olursun.
+- `./basic_histogram --batch` parametresiyle GUI’yi kapat; yüksek hacimli üretimde batch modu tercih edilir.
+
+Not: Kod içindeki açıklamalar Türkçe olduğundan neyin neden yapıldığını adım adım takip edebilirsin. Değişiklik yaptığında yeni histogramı tekrar incelemeyi unutma.

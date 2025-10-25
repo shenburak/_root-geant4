@@ -16,6 +16,7 @@ int main(int argc, char **argv) {
     auto runManager = G4RunManagerFactory::CreateRunManager();
 
     auto detector = new DetectorConstruction();
+    // Geometri ve hassas dedektörler run manager'a kaydediliyor.
     runManager->SetUserInitialization(detector);
 
     auto physicsList = new FTFP_BERT;
@@ -30,10 +31,12 @@ int main(int argc, char **argv) {
 
     if (argc == 1) {
         auto uiExec = std::make_unique<G4UIExecutive>(argc, argv);
+        // Etkileşimli modda görselleştirme ve GPS ayarları visual.mac dosyasında toplanıyor.
         uiManager->ApplyCommand("/control/execute macros/visual.mac");
         uiExec->SessionStart();
     } else {
         auto macro = std::string("/control/execute ") + argv[1];
+        // Toplu analizde parametre taramaları için farklı makrolar geçilebilir.
         uiManager->ApplyCommand(macro.c_str());
     }
 

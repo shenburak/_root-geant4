@@ -21,6 +21,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     auto *scint = nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE");
     auto *lead = nist->FindOrBuildMaterial("G4_Pb");
 
+    // Dünya hacmi geniş tutuldu, böylece çok iş parçacıklı çalışmada ışın saçılmaları sınır dışına çıkmıyor.
     auto *worldSolid = new G4Box("WorldSolid", 3. * m, 3. * m, 3. * m);
     auto *worldLogical = new G4LogicalVolume(worldSolid, air, "WorldLogical");
     auto *worldPhysical = new G4PVPlacement(nullptr, {}, worldLogical, "WorldPhysical", nullptr, false, 0, true);
@@ -48,6 +49,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
         new G4PVPlacement(nullptr, G4ThreeVector(0., 0., z + 0.5 * scintThickness), scintLogical,
                           "ScintPhysical" + std::to_string(i), stackLogical, false, 0, true);
         scintLogical->SetVisAttributes(G4VisAttributes(G4Colour(0.0, 0.6, 0.2)));
+        // Sadece ışıldayıcı katmanlar skorlanacak; bu yüzden pointer'ı saklıyoruz.
         fLayers.push_back(scintLogical);
         z += scintThickness;
     }

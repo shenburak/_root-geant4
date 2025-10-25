@@ -12,6 +12,7 @@ namespace {
 G4int FetchCollectionID() {
     static G4int id = -1;
     if (id < 0) {
+        // Hit koleksiyonunu sadece ilk seferde SD yöneticisinden çekip kimliği önbelleğe alıyoruz.
         id = G4SDManager::GetSDMpointer()->GetCollectionID("TelescopeSD/TelescopeHits");
     }
     return id;
@@ -22,6 +23,7 @@ EventAction::EventAction(RunAction *runAction, std::size_t nLayers)
     : G4UserEventAction(), fRunAction(runAction), fNLayers(nLayers) {}
 
 void EventAction::BeginOfEventAction(const G4Event *event) {
+    // Olay kimliği ntuple'da anahtar olarak kullanılacak.
     fEventId = event->GetEventID();
 }
 
@@ -39,6 +41,7 @@ void EventAction::EndOfEventAction(const G4Event *event) {
 
     auto *analysis = G4AnalysisManager::Instance();
     for (const auto *hit : *hits) {
+        // Her hit'i satır bazlı ntuple'lara yayarak PyROOT sonrası analizine hazır hale getiriyoruz.
         analysis->FillNtupleIColumn(0, fEventId);
         analysis->FillNtupleIColumn(1, hit->GetLayerId());
         analysis->FillNtupleDColumn(2, hit->GetEnergy() / keV);

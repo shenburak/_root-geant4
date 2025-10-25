@@ -18,6 +18,7 @@
 
 int main(int argc, char **argv) {
     auto runManager = G4RunManagerFactory::CreateRunManager();
+    // Geometri, fizik ve kullanıcı action sınıfları run manager'a inject ediliyor.
     runManager->SetUserInitialization(new DetectorConstruction());
 
     auto physicsList = new FTFP_BERT;
@@ -33,9 +34,11 @@ int main(int argc, char **argv) {
 
     if (argc == 1) {
         auto uiExec = std::make_unique<G4UIExecutive>(argc, argv);
+        // Etkileşimli çalıştırmada görselleştirme betiğini çağırıp kullanıcıya terminal oturumu açıyoruz.
         uiManager->ApplyCommand("/control/execute macros/init_vis.mac");
         uiExec->SessionStart();
     } else {
+        // Komut satırında makro dosyası verilmişse doğrudan yorumluyoruz.
         auto command = std::string("/control/execute ") + argv[1];
         uiManager->ApplyCommand(command);
     }

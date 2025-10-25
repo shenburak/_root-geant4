@@ -11,6 +11,7 @@ ActionInitialization::ActionInitialization(const DetectorConstruction *detector)
 void ActionInitialization::Build() const {
     std::size_t nLayers = 0;
     if (fDetector) {
+        // Dedektör katman sayısını action sınıflarına aktarabilmek için önceden okuyoruz.
         nLayers = fDetector->GetLayerVolumes().size();
     }
 
@@ -22,5 +23,6 @@ void ActionInitialization::Build() const {
     auto eventAction = new EventAction(runAction, nLayers);
     SetUserAction(eventAction);
 
+    // SteppingAction enerji depozisyonlarını katman indeksine göre takip eder.
     SetUserAction(new SteppingAction(fDetector, eventAction));
 }

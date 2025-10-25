@@ -10,6 +10,7 @@ SteppingAction::SteppingAction(const DetectorConstruction *detector, EventAction
     if (fDetector) {
         const auto &layers = fDetector->GetLayerVolumes();
         for (std::size_t i = 0; i < layers.size(); ++i) {
+            // Katman hacimlerini indeksleyen bir tablo hazırlıyoruz ki adım sırasında hızlıca ulaşabilelim.
             fLayerIndex[layers[i]] = i;
         }
     }
@@ -31,5 +32,6 @@ void SteppingAction::UserSteppingAction(const G4Step *step) {
         return;
     }
 
+    // Hangi katmanda enerji bırakıldıysa onu olay tamponuna ekliyoruz.
     fEventAction->AddEdep(iter->second, edep);
 }
