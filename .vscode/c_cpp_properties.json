@@ -4,10 +4,9 @@
       "name": "macOS",
       "includePath": [
         "${workspaceFolder}/**",
-        "${env:ROOTSYS}/include",
-        "${env:ROOTSYS}/include/root",
-        "${env:G4INCLUDE}",
-        "${env:Geant4_DIR}/../../../include"
+        "/opt/anaconda3/include/Geant4",
+        "/opt/anaconda3/include",
+        "/opt/anaconda3/include/root"
       ],
       "macFrameworkPath": ["/System/Library/Frameworks", "/Library/Frameworks"],
       "defines": [],
