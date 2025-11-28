@@ -11,7 +11,7 @@
 RunAction::RunAction() : G4UserRunAction(), fTotalEdep(0.) {
     auto *accumulableManager = G4AccumulableManager::Instance();
     // Çok iş parçacıklı koşularda enerji toplamını güvenle toplayabilmek için Accumulable mekanizmasını kullanıyoruz.
-    accumulableManager->RegisterAccumulable(fTotalEdep);
+    accumulableManager->Register(fTotalEdep);
 }
 
 void RunAction::BeginOfRunAction(const G4Run *) {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <G4Types.hh>
 #include <G4UserEventAction.hh>
 
 class RunAction;

@@ -36,7 +36,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
     auto *detectorLogical = new G4LogicalVolume(detectorSolid, silicon, "DetectorLogical");
     new G4PVPlacement(nullptr, {}, detectorLogical, "DetectorPhysical", worldLogical, false, 0, true);
 
-    worldLogical->SetVisAttributes(G4VisAttributes::Invisible);
+    G4VisAttributes worldInvisible;
+    worldInvisible.SetVisibility(false);
+    worldLogical->SetVisAttributes(worldInvisible);
     auto detectorColour = G4VisAttributes(G4Colour(0.0, 0.3, 0.9));
     detectorLogical->SetVisAttributes(detectorColour);
 

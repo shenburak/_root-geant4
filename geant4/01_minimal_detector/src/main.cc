@@ -15,6 +15,7 @@
 #include <G4VisExecutive.hh>
 
 #include <memory>
+#include <string>
 
 int main(int argc, char **argv) {
     auto runManager = G4RunManagerFactory::CreateRunManager();
@@ -32,15 +33,24 @@ int main(int argc, char **argv) {
 
     auto uiManager = G4UImanager::GetUIpointer();
 
+    const std::string macroArg = argc > 1 ? argv[1] : "";
+    const bool wantsVisSession = (argc == 1) || (macroArg.find("init_vis") != std::string::npos);
+    std::unique_ptr<G4UIExecutive> uiExec;
+    if (wantsVisSession) {
+        uiExec = std::make_unique<G4UIExecutive>(argc, argv);
+    }
+
     if (argc == 1) {
-        auto uiExec = std::make_unique<G4UIExecutive>(argc, argv);
         // Etkileşimli çalıştırmada görselleştirme betiğini çağırıp kullanıcıya terminal oturumu açıyoruz.
         uiManager->ApplyCommand("/control/execute macros/init_vis.mac");
         uiExec->SessionStart();
     } else {
         // Komut satırında makro dosyası verilmişse doğrudan yorumluyoruz.
-        auto command = std::string("/control/execute ") + argv[1];
+        auto command = std::string("/control/execute ") + macroArg;
         uiManager->ApplyCommand(command);
+        if (uiExec) {
+            uiExec->SessionStart();
+        }
     }
 
     return 0;

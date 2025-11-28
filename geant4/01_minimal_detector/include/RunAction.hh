@@ -1,5 +1,6 @@
 #pragma once
 
+#include <G4Accumulable.hh>
 #include <G4AccumulableManager.hh>
 #include <G4UserRunAction.hh>
 

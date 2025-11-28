@@ -3,9 +3,9 @@
 /event/verbose 1
 /tracking/verbose 0
 
-/control/execute macros/vis_settings.mac
-
 /run/initialize
+
+/control/execute macros/vis_settings.mac
 
 /vis/viewer/set/autoRefresh true
 /vis/viewer/set/style surface
