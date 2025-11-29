@@ -1,5 +1,6 @@
 {
   "files.associations": {
+    "*.css": "tailwindcss",
     "spectrumMacro.C": "cpp",
     "run_all.C": "cpp",
     "cmath": "cpp",
@@ -7,7 +8,8 @@
     "chrono": "cpp",
     "viewHits.C": "cpp",
     "__config": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "mucos.C": "cpp"
   },
   "cmake.sourceDirectory": "/Users/shenburak/Documents/projects/root-geant4/geant4/01_minimal_detector",
   "C_Cpp.default.includePath": [
