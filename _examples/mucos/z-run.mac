@@ -1,0 +1,16 @@
+########################################################
+# This macro file will be called from command line.
+#
+# Example run (in build folder):
+#   $ ./main z-run.mac
+########################################################
+
+# run 0
+/gun/particle proton
+/gun/momentumAmp 0.6 GeV
+/run/beamOn 10000
+
+# run 1
+/gun/particle pi-
+/gun/momentumAmp 0.6 GeV
+/run/beamOn 10000

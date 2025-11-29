@@ -1,0 +1,38 @@
+------------------------------------------------------------------------------------------------
+Geant4 application for simulation of interaction of a charged particle with copper block.
+Feb 2025
+------------------------------------------------------------------------------------------------
+
+Main program       : main.cc
+Primary particle   : proton (and charged pion) *
+World material     : Galactic (vacuum)
+Material           : copper (20mmx20mmx5mm)
+Output root files  : output0.root, output1.root
+
+Aim of the program is to fill root ntuples containing the following
+data associated to proton (and pion) after interaction with Cu block:
+
+container name: Hits
+- Event number (0,1,2,...)
+- Particle's PDG code (p=2212, pi=211, ...)
+- Particle's momentum magnitude (MeV)
+- Particle's x,y,z components of momentum (MeV)
+- Particle's x,y,z values on sensitve detector (mm)
+
+container name: Scoring
+- Energy deposition in MeV of particle in Cu
+
+Compile and run in build folder
+
+$ cmake ..
+$ make
+$ ./main
+or 
+$ ./main z-run.mac
+____________________________
+* Particle candidates are: 
+GenericIon He3 alpha anti_He3 anti_alpha anti_deuteron anti_doublehyperH4 anti_doublehyperdoubleneutron anti_hyperH4 
+anti_hyperHe5 anti_hyperalpha anti_hypertriton anti_lambda anti_neutron anti_nu_e anti_nu_mu 
+anti_proton anti_triton chargedgeantino deuteron doublehyperH4 doublehyperdoubleneutron e+ e- gamma 
+geantino hyperH4 hyperHe5 hyperalpha hypertriton kaon+ kaon- lambda mu+ mu- neutron nu_e nu_mu pi+ pi- 
+pi0 proton triton ion
